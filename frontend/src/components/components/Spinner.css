@@ -1,0 +1,158 @@
+.spinner-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.spinner-text {
+  color: #6c757d;
+}
+
+.spinner-border {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  vertical-align: text-bottom;
+  border: 3px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spinner-border 0.75s linear infinite;
+}
+
+.spinner-border-small {
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+}
+
+.spinner-border-medium {
+  width: 32px;
+  height: 32px;
+  border-width: 3px;
+}
+
+.spinner-border-large {
+  width: 48px;
+  height: 48px;
+  border-width: 4px;
+}
+
+.spinner-border-primary {
+  color: #0d6efd;
+}
+
+.spinner-border-secondary {
+  color: #6c757d;
+}
+
+.spinner-border-success {
+  color: #198754;
+}
+
+.spinner-border-danger {
+  color: #dc3545;
+}
+
+.spinner-border-warning {
+  color: #ffc107;
+}
+
+.spinner-border-info {
+  color: #0dcaf0;
+}
+
+.spinner-border-light {
+  color: #f8f9fa;
+}
+
+.spinner-border-dark {
+  color: #212529;
+}
+
+.spinner-grow {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  vertical-align: text-bottom;
+  background-color: currentColor;
+  border-radius: 50%;
+  opacity: 0;
+  animation: spinner-grow 0.75s linear infinite;
+}
+
+.spinner-grow-small {
+  width: 16px;
+  height: 16px;
+}
+
+.spinner-grow-medium {
+  width: 32px;
+  height: 32px;
+}
+
+.spinner-grow-large {
+  width: 48px;
+  height: 48px;
+}
+
+.spinner-grow-primary {
+  color: #0d6efd;
+}
+
+.spinner-grow-secondary {
+  color: #6c757d;
+}
+
+.spinner-grow-success {
+  color: #198754;
+}
+
+.spinner-grow-danger {
+  color: #dc3545;
+}
+
+.spinner-grow-warning {
+  color: #ffc107;
+}
+
+.spinner-grow-info {
+  color: #0dcaf0;
+}
+
+.spinner-grow-light {
+  color: #f8f9fa;
+}
+
+.spinner-grow-dark {
+  color: #212529;
+}
+
+@keyframes spinner-border {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinner-grow {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+

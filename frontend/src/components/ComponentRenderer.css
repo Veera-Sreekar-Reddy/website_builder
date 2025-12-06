@@ -1,0 +1,62 @@
+.component-wrapper {
+  position: relative;
+  margin: 8px 0;
+  padding: 4px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  cursor: grab;
+  transition: all 0.2s;
+}
+
+.component-wrapper:active {
+  cursor: grabbing;
+}
+
+.component-wrapper:hover {
+  border-color: #007bff;
+  background: rgba(0, 123, 255, 0.05);
+}
+
+.component-wrapper.selected {
+  border-color: #007bff;
+  background: rgba(0, 123, 255, 0.1);
+}
+
+.component-wrapper.drag-over {
+  border-color: #28a745;
+  background: rgba(40, 167, 69, 0.1);
+}
+
+.component-wrapper.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+}
+
+.component-controls {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  z-index: 10;
+  display: flex;
+  gap: 4px;
+}
+
+.control-btn {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 50%;
+  background: #dc3545;
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.control-btn:hover {
+  background: #c82333;
+}
+

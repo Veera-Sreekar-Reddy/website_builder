@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "websites",
+  "info": {
+    "singularName": "website",
+    "pluralName": "websites",
+    "displayName": "Website",
+    "description": "Stores website configurations and generated code"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "components": {
+      "type": "json",
+      "required": false
+    },
+    "generatedCode": {
+      "type": "text",
+      "required": false
+    },
+    "domain": {
+      "type": "string",
+      "required": false
+    },
+    "published": {
+      "type": "boolean",
+      "default": false
+    },
+    "publishedAt": {
+      "type": "datetime",
+      "required": false
+    }
+  }
+}
+

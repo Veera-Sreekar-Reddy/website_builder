@@ -1,0 +1,96 @@
+.property-panel {
+  width: 300px;
+  background: #ffffff;
+  border-left: 1px solid #e0e0e0;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.panel-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.panel-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: #999;
+}
+
+.panel-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.property-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.property-group label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.property-group input,
+.property-group select,
+.property-group textarea {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.color-picker-wrapper {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.color-picker {
+  width: 50px;
+  height: 40px;
+  padding: 2px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  background: none;
+}
+
+.color-picker::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.color-picker::-webkit-color-swatch {
+  border: none;
+  border-radius: 3px;
+}
+
+.color-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  text-transform: uppercase;
+}
+
+.property-group input:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.property-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+

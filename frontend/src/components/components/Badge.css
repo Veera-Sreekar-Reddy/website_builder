@@ -1,0 +1,71 @@
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 4px;
+}
+
+.badge-pill {
+  border-radius: 50px;
+}
+
+.badge-small {
+  font-size: 10px;
+  padding: 2px 6px;
+}
+
+.badge-medium {
+  font-size: 12px;
+  padding: 4px 8px;
+}
+
+.badge-large {
+  font-size: 14px;
+  padding: 6px 10px;
+}
+
+.badge-primary {
+  color: #fff;
+  background-color: #0d6efd;
+}
+
+.badge-secondary {
+  color: #fff;
+  background-color: #6c757d;
+}
+
+.badge-success {
+  color: #fff;
+  background-color: #198754;
+}
+
+.badge-danger {
+  color: #fff;
+  background-color: #dc3545;
+}
+
+.badge-warning {
+  color: #000;
+  background-color: #ffc107;
+}
+
+.badge-info {
+  color: #000;
+  background-color: #0dcaf0;
+}
+
+.badge-light {
+  color: #000;
+  background-color: #f8f9fa;
+}
+
+.badge-dark {
+  color: #fff;
+  background-color: #212529;
+}
+

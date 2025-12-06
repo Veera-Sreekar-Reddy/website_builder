@@ -1,0 +1,30 @@
+{
+  "name": "website-builder-backend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "develop": "strapi develop",
+    "start": "strapi start",
+    "build": "strapi build",
+    "strapi": "strapi"
+  },
+  "dependencies": {
+    "@strapi/strapi": "^4.15.0",
+    "@strapi/plugin-users-permissions": "^4.15.0",
+    "@strapi/plugin-i18n": "^4.15.0",
+    "pg": "^8.11.0"
+  },
+  "devDependencies": {},
+  "author": {
+    "name": "Website Builder"
+  },
+  "strapi": {
+    "uuid": "website-builder-strapi"
+  },
+  "engines": {
+    "node": ">=18.0.0 <=20.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}
+
