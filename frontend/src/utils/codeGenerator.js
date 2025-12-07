@@ -120,4 +120,3 @@ function generateComponentCode(component, index, imports) {
 
   return `<${component.type}${props ? ' ' + props : ''} />`
 }
-

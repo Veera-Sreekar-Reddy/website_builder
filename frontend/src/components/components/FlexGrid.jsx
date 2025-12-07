@@ -1,8 +1,24 @@
 import React from 'react'
-import './Container.css'
+import './FlexGrid.css'
 
-function Container({ padding = 20, backgroundColor = '#ffffff', children, backgroundType, gradientStart, gradientEnd, gradientDirection, ...otherProps }) {
+function FlexGrid({ 
+  rows = 1, 
+  columns = 2, 
+  gap = 16, 
+  backgroundColor = '#ffffff',
+  padding = 20,
+  backgroundType,
+  gradientStart,
+  gradientEnd,
+  gradientDirection,
+  children,
+  ...otherProps 
+}) {
   const style = {
+    display: 'grid',
+    gridTemplateColumns: `repeat(${columns}, 1fr)`,
+    gridAutoRows: 'minmax(50px, auto)',
+    gap: `${gap}px`,
     padding: `${padding}px`,
     ...otherProps
   }
@@ -16,7 +32,7 @@ function Container({ padding = 20, backgroundColor = '#ffffff', children, backgr
   
   return (
     <div 
-      className="container-component"
+      className="flex-grid-component"
       style={style}
     >
       {children}
@@ -24,5 +40,5 @@ function Container({ padding = 20, backgroundColor = '#ffffff', children, backgr
   )
 }
 
-export default Container
+export default FlexGrid
 

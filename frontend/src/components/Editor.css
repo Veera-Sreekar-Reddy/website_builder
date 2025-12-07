@@ -46,3 +46,39 @@
   font-size: 16px;
 }
 
+.responsive-indicator {
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  background: #f0f0f0;
+  border-radius: 4px;
+}
+
+.editor-desktop .editor-canvas {
+  max-width: 100%;
+}
+
+.editor-tablet .editor-canvas {
+  max-width: 768px;
+  margin: 0 auto;
+  background: #ffffff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  min-height: 1024px;
+}
+
+.editor-mobile .editor-canvas {
+  max-width: 375px;
+  margin: 0 auto;
+  background: #ffffff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  min-height: 667px;
+}
+
+.editor.show-grid .editor-canvas {
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+

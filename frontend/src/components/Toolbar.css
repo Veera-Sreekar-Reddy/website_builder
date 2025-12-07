@@ -123,6 +123,60 @@
   min-width: 200px;
 }
 
+.toolbar-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+  border-right: 1px solid #e0e0e0;
+}
+
+.toolbar-group:last-of-type {
+  border-right: none;
+}
+
+.btn-icon {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f9f9f9;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s;
+  min-width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon:hover:not(:disabled) {
+  background: #e9ecef;
+  border-color: #007bff;
+}
+
+.btn-icon:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-icon.active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.responsive-controls .btn-icon {
+  font-size: 14px;
+}
+
 .toolbar-right {
   display: flex;
   gap: 12px;

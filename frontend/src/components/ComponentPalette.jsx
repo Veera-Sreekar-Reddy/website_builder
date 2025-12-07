@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState, useMemo } from 'react'
 import { useDrag } from 'react-dnd'
 import './ComponentPalette.css'
 
 const COMPONENT_TYPES = [
   // Basic Components
   { type: 'Container', icon: '📦', label: 'Container' },
+  { type: 'FlexGrid', icon: '⊞', label: 'Flex Grid' },
   { type: 'Heading', icon: '📝', label: 'Heading' },
   { type: 'Text', icon: '✏️', label: 'Text' },
   { type: 'Button', icon: '🔘', label: 'Button' },
@@ -56,19 +57,49 @@ function DraggableComponent({ type, icon, label }) {
   )
 }
 
-function ComponentPalette() {
+function ComponentPalette({ searchQuery = '', onSearchChange = () => {} }) {
+  const [search, setSearch] = useState('')
+  
+  const filteredComponents = useMemo(() => {
+    if (!search) return COMPONENT_TYPES
+    const query = search.toLowerCase()
+    return COMPONENT_TYPES.filter(comp => 
+      comp.label.toLowerCase().includes(query) || 
+      comp.type.toLowerCase().includes(query)
+    )
+  }, [search])
+  
+  const handleSearchChange = (e) => {
+    const value = e.target.value
+    setSearch(value)
+    onSearchChange(value)
+  }
+  
   return (
     <div className="component-palette">
-      <h3 className="palette-title">Components</h3>
+      <div className="palette-header">
+        <h3 className="palette-title">Components</h3>
+        <input
+          type="text"
+          className="palette-search"
+          placeholder="Search components..."
+          value={search}
+          onChange={handleSearchChange}
+        />
+      </div>
       <div className="palette-list">
-        {COMPONENT_TYPES.map((comp) => (
-          <DraggableComponent
-            key={comp.type}
-            type={comp.type}
-            icon={comp.icon}
-            label={comp.label}
-          />
-        ))}
+        {filteredComponents.length > 0 ? (
+          filteredComponents.map((comp) => (
+            <DraggableComponent
+              key={comp.type}
+              type={comp.type}
+              icon={comp.icon}
+              label={comp.label}
+            />
+          ))
+        ) : (
+          <div className="palette-empty">No components found</div>
+        )}
       </div>
     </div>
   )

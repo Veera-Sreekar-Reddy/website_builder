@@ -1,7 +1,7 @@
 import React from 'react'
 import './PropertyPanel.css'
 
-function PropertyPanel({ component, onUpdate, onDelete }) {
+function PropertyPanel({ component, onUpdate, onDelete, darkMode = false, pages = [] }) {
   if (!component) {
     return (
       <div className="property-panel">
@@ -34,6 +34,32 @@ function PropertyPanel({ component, onUpdate, onDelete }) {
     if (!isNaN(numValue)) {
       handlePropChange(key, numValue)
     }
+  }
+
+  const handleMoveChild = (fromIndex, toIndex) => {
+    if (!component.children || toIndex < 0 || toIndex >= component.children.length) {
+      return
+    }
+    
+    const newChildren = [...component.children]
+    const [moved] = newChildren.splice(fromIndex, 1)
+    newChildren.splice(toIndex, 0, moved)
+    
+    onUpdate(component.id, {
+      children: newChildren
+    })
+  }
+
+  const handleRemoveChild = (index) => {
+    if (!component.children || index < 0 || index >= component.children.length) {
+      return
+    }
+    
+    const newChildren = component.children.filter((_, i) => i !== index)
+    
+    onUpdate(component.id, {
+      children: newChildren
+    })
   }
 
   const renderPropertyInputs = () => {
@@ -200,6 +226,115 @@ function PropertyPanel({ component, onUpdate, onDelete }) {
             </div>
           </div>
         )
+        break
+
+      case 'FlexGrid':
+        inputs.push(
+          <div key="rows" className="property-group">
+            <label>Number of Rows (Auto-generated)</label>
+            <input
+              type="number"
+              min="1"
+              max="12"
+              value={component.props.rows ?? 2}
+              onChange={(e) => handleNumberChange('rows', e.target.value, 2)}
+              disabled
+              title="Rows are automatically generated based on number of items"
+            />
+            <small style={{ fontSize: '11px', color: '#666', marginTop: '4px', display: 'block' }}>
+              Rows auto-generate based on items
+            </small>
+          </div>,
+          <div key="columns" className="property-group">
+            <label>Number of Columns</label>
+            <input
+              type="number"
+              min="1"
+              max="12"
+              value={component.props.columns ?? 2}
+              onChange={(e) => handleNumberChange('columns', e.target.value, 2)}
+            />
+          </div>,
+          <div key="gap" className="property-group">
+            <label>Gap (px)</label>
+            <input
+              type="number"
+              min="0"
+              value={component.props.gap ?? 16}
+              onChange={(e) => handleNumberChange('gap', e.target.value, 16)}
+            />
+          </div>,
+          <div key="padding" className="property-group">
+            <label>Padding</label>
+            <input
+              type="number"
+              value={component.props.padding ?? 20}
+              onChange={(e) => handleNumberChange('padding', e.target.value, 20)}
+            />
+          </div>,
+          <div key="backgroundColor" className="property-group">
+            <label>Background Color</label>
+            <div className="color-picker-wrapper">
+              <input
+                type="color"
+                value={component.props.backgroundColor || '#ffffff'}
+                onChange={(e) => handlePropChange('backgroundColor', e.target.value)}
+                className="color-picker"
+              />
+              <input
+                type="text"
+                value={component.props.backgroundColor || '#ffffff'}
+                onChange={(e) => handlePropChange('backgroundColor', e.target.value)}
+                className="color-input"
+                placeholder="#ffffff"
+              />
+            </div>
+          </div>
+        )
+        
+        // Add component reordering section if there are children
+        if (component.children && component.children.length > 0) {
+          inputs.push(
+            <div key="grid-children" className="property-group grid-children-section">
+              <label>Grid Items ({component.children.length})</label>
+              <div className="grid-children-list">
+                {component.children.map((child, index) => (
+                  <div key={child.id} className="grid-child-item">
+                    <div className="grid-child-info">
+                      <span className="grid-child-type">{child.type}</span>
+                      <span className="grid-child-position">Position: {index + 1}</span>
+                    </div>
+                    <div className="grid-child-actions">
+                      <button
+                        className="grid-child-btn"
+                        onClick={() => handleMoveChild(index, index - 1)}
+                        disabled={index === 0}
+                        title="Move Up"
+                      >
+                        ↑
+                      </button>
+                      <button
+                        className="grid-child-btn"
+                        onClick={() => handleMoveChild(index, index + 1)}
+                        disabled={index === component.children.length - 1}
+                        title="Move Down"
+                      >
+                        ↓
+                      </button>
+                      <button
+                        className="grid-child-btn delete"
+                        onClick={() => handleRemoveChild(index)}
+                        title="Remove"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
+        }
         break
 
       case 'Heading':
@@ -1282,8 +1417,216 @@ function PropertyPanel({ component, onUpdate, onDelete }) {
     return inputs
   }
 
+  const renderStylingSection = () => {
+    const props = component.props || {}
+    return (
+      <div className="styling-section">
+        <h4 className="section-title">Advanced Styling</h4>
+        
+        <div className="property-group">
+          <label>Border Radius</label>
+          <input
+            type="number"
+            value={props.borderRadius ?? 0}
+            onChange={(e) => handleNumberChange('borderRadius', e.target.value, 0)}
+            placeholder="0"
+          />
+          <div className="property-group">
+            <label>Border Width</label>
+            <input
+              type="number"
+              value={props.borderWidth ?? 0}
+              onChange={(e) => handleNumberChange('borderWidth', e.target.value, 0)}
+            />
+          </div>
+          <div className="property-group">
+            <label>Border Color</label>
+            <div className="color-picker-wrapper">
+              <input
+                type="color"
+                value={props.borderColor || '#000000'}
+                onChange={(e) => handlePropChange('borderColor', e.target.value)}
+                className="color-picker"
+              />
+              <input
+                type="text"
+                value={props.borderColor || '#000000'}
+                onChange={(e) => handlePropChange('borderColor', e.target.value)}
+                className="color-input"
+              />
+            </div>
+          </div>
+        </div>
+        
+        <div className="property-group">
+          <label>Box Shadow</label>
+          <select
+            value={props.boxShadow || 'none'}
+            onChange={(e) => handlePropChange('boxShadow', e.target.value)}
+          >
+            <option value="none">None</option>
+            <option value="sm">Small</option>
+            <option value="md">Medium</option>
+            <option value="lg">Large</option>
+            <option value="xl">Extra Large</option>
+          </select>
+        </div>
+        
+        <div className="property-group">
+          <label>Background Type</label>
+          <select
+            value={props.backgroundType || 'solid'}
+            onChange={(e) => handlePropChange('backgroundType', e.target.value)}
+          >
+            <option value="solid">Solid</option>
+            <option value="gradient">Gradient</option>
+          </select>
+        </div>
+        
+        {props.backgroundType === 'gradient' && (
+          <>
+            <div className="property-group">
+              <label>Gradient Start Color</label>
+              <div className="color-picker-wrapper">
+                <input
+                  type="color"
+                  value={props.gradientStart || '#007bff'}
+                  onChange={(e) => handlePropChange('gradientStart', e.target.value)}
+                  className="color-picker"
+                />
+                <input
+                  type="text"
+                  value={props.gradientStart || '#007bff'}
+                  onChange={(e) => handlePropChange('gradientStart', e.target.value)}
+                  className="color-input"
+                />
+              </div>
+            </div>
+            <div className="property-group">
+              <label>Gradient End Color</label>
+              <div className="color-picker-wrapper">
+                <input
+                  type="color"
+                  value={props.gradientEnd || '#0056b3'}
+                  onChange={(e) => handlePropChange('gradientEnd', e.target.value)}
+                  className="color-picker"
+                />
+                <input
+                  type="text"
+                  value={props.gradientEnd || '#0056b3'}
+                  onChange={(e) => handlePropChange('gradientEnd', e.target.value)}
+                  className="color-input"
+                />
+              </div>
+            </div>
+            <div className="property-group">
+              <label>Gradient Direction</label>
+              <select
+                value={props.gradientDirection || 'to right'}
+                onChange={(e) => handlePropChange('gradientDirection', e.target.value)}
+              >
+                <option value="to right">To Right</option>
+                <option value="to left">To Left</option>
+                <option value="to bottom">To Bottom</option>
+                <option value="to top">To Top</option>
+                <option value="to bottom right">To Bottom Right</option>
+                <option value="to bottom left">To Bottom Left</option>
+              </select>
+            </div>
+          </>
+        )}
+        
+        <div className="property-group">
+          <label>Font Family</label>
+          <select
+            value={props.fontFamily || 'system-ui'}
+            onChange={(e) => handlePropChange('fontFamily', e.target.value)}
+          >
+            <option value="system-ui">System UI</option>
+            <option value="Arial">Arial</option>
+            <option value="Helvetica">Helvetica</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Verdana">Verdana</option>
+            <option value="Impact">Impact</option>
+          </select>
+        </div>
+        
+        <div className="property-group">
+          <label>Font Weight</label>
+          <select
+            value={props.fontWeight || 'normal'}
+            onChange={(e) => handlePropChange('fontWeight', e.target.value)}
+          >
+            <option value="100">Thin (100)</option>
+            <option value="200">Extra Light (200)</option>
+            <option value="300">Light (300)</option>
+            <option value="400">Normal (400)</option>
+            <option value="500">Medium (500)</option>
+            <option value="600">Semi Bold (600)</option>
+            <option value="700">Bold (700)</option>
+            <option value="800">Extra Bold (800)</option>
+            <option value="900">Black (900)</option>
+          </select>
+        </div>
+        
+        <div className="property-group">
+          <label>Text Align</label>
+          <select
+            value={props.textAlign || 'left'}
+            onChange={(e) => handlePropChange('textAlign', e.target.value)}
+          >
+            <option value="left">Left</option>
+            <option value="center">Center</option>
+            <option value="right">Right</option>
+            <option value="justify">Justify</option>
+          </select>
+        </div>
+        
+        <div className="property-group">
+          <label>Opacity</label>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.1"
+            value={props.opacity ?? 1}
+            onChange={(e) => handlePropChange('opacity', parseFloat(e.target.value))}
+          />
+          <span>{props.opacity ?? 1}</span>
+        </div>
+        
+        <div className="property-group">
+          <label>Custom CSS</label>
+          <textarea
+            value={props.customCSS || ''}
+            onChange={(e) => handlePropChange('customCSS', e.target.value)}
+            rows={4}
+            placeholder="Enter custom CSS (e.g., transform: rotate(45deg);)"
+          />
+        </div>
+        
+        <div className="property-group">
+          <label>Animation</label>
+          <select
+            value={props.animation || 'none'}
+            onChange={(e) => handlePropChange('animation', e.target.value)}
+          >
+            <option value="none">None</option>
+            <option value="fadeIn">Fade In</option>
+            <option value="slideIn">Slide In</option>
+            <option value="bounce">Bounce</option>
+            <option value="pulse">Pulse</option>
+            <option value="shake">Shake</option>
+          </select>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="property-panel">
+    <div className={`property-panel ${darkMode ? 'dark-mode' : ''}`}>
       <h3 className="panel-title">Properties</h3>
       <div className="panel-content">
         <div className="property-group">
@@ -1291,6 +1634,7 @@ function PropertyPanel({ component, onUpdate, onDelete }) {
           <input type="text" value={component.type} disabled />
         </div>
         {renderPropertyInputs()}
+        {renderStylingSection()}
       </div>
     </div>
   )

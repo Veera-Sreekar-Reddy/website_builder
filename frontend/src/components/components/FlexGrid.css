@@ -1,0 +1,26 @@
+.flex-grid-component {
+  min-height: 200px;
+  border: 2px dashed #ddd;
+  border-radius: 4px;
+  position: relative;
+}
+
+.flex-grid-component:empty::before {
+  content: 'Drop components here';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #999;
+  font-size: 14px;
+}
+
+.flex-grid-component > * {
+  min-height: 50px;
+  width: 100%;
+}
+
+.flex-grid-component > * > * {
+  width: 100%;
+}
+

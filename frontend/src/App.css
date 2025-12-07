@@ -11,3 +11,46 @@
   overflow: hidden;
 }
 
+/* Dark Mode */
+.app.dark-mode,
+.dark-mode .toolbar,
+.dark-mode .component-palette,
+.dark-mode .property-panel,
+.dark-mode .editor {
+  background: #1a1a1a;
+  color: #e0e0e0;
+}
+
+.dark-mode .toolbar {
+  border-bottom-color: #333;
+}
+
+.dark-mode .component-palette {
+  border-right-color: #333;
+}
+
+.dark-mode .property-panel {
+  border-left-color: #333;
+}
+
+.dark-mode input,
+.dark-mode textarea,
+.dark-mode select {
+  background: #2a2a2a;
+  color: #e0e0e0;
+  border-color: #444;
+}
+
+.dark-mode .btn {
+  background: #333;
+  color: #e0e0e0;
+}
+
+.dark-mode .btn-primary {
+  background: #007bff;
+}
+
+.dark-mode .btn-secondary {
+  background: #6c757d;
+}
+
