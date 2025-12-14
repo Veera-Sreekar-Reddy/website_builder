@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { useDrag } from 'react-dnd'
+import { COMPONENT_TEMPLATES } from '../utils/componentTemplates'
 import './ComponentPalette.css'
 
 const COMPONENT_TYPES = [
@@ -57,8 +58,33 @@ function DraggableComponent({ type, icon, label }) {
   )
 }
 
+function DraggableTemplate({ templateKey, template }) {
+  const [{ isDragging }, drag] = useDrag({
+    type: 'template',
+    item: { templateKey },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging()
+    })
+  })
+
+  return (
+    <div
+      ref={drag}
+      className={`palette-item palette-template ${isDragging ? 'dragging' : ''}`}
+      title={template.description}
+    >
+      <span className="palette-icon">{template.icon}</span>
+      <div className="palette-template-info">
+        <span className="palette-label">{template.name}</span>
+        <span className="palette-description">{template.description}</span>
+      </div>
+    </div>
+  )
+}
+
 function ComponentPalette({ searchQuery = '', onSearchChange = () => {} }) {
   const [search, setSearch] = useState('')
+  const [activeTab, setActiveTab] = useState('templates') // 'components' or 'templates'
   
   const filteredComponents = useMemo(() => {
     if (!search) return COMPONENT_TYPES
@@ -66,6 +92,16 @@ function ComponentPalette({ searchQuery = '', onSearchChange = () => {} }) {
     return COMPONENT_TYPES.filter(comp => 
       comp.label.toLowerCase().includes(query) || 
       comp.type.toLowerCase().includes(query)
+    )
+  }, [search])
+  
+  const filteredTemplates = useMemo(() => {
+    if (!search) return Object.entries(COMPONENT_TEMPLATES)
+    const query = search.toLowerCase()
+    return Object.entries(COMPONENT_TEMPLATES).filter(([key, template]) => 
+      template.name.toLowerCase().includes(query) || 
+      template.description.toLowerCase().includes(query) ||
+      key.toLowerCase().includes(query)
     )
   }, [search])
   
@@ -78,27 +114,54 @@ function ComponentPalette({ searchQuery = '', onSearchChange = () => {} }) {
   return (
     <div className="component-palette">
       <div className="palette-header">
-        <h3 className="palette-title">Components</h3>
+        <div className="palette-tabs">
+          <button 
+            className={`palette-tab ${activeTab === 'templates' ? 'active' : ''}`}
+            onClick={() => setActiveTab('templates')}
+          >
+            Templates
+          </button>
+          <button 
+            className={`palette-tab ${activeTab === 'components' ? 'active' : ''}`}
+            onClick={() => setActiveTab('components')}
+          >
+            Components
+          </button>
+        </div>
         <input
           type="text"
           className="palette-search"
-          placeholder="Search components..."
+          placeholder={`Search ${activeTab}...`}
           value={search}
           onChange={handleSearchChange}
         />
       </div>
       <div className="palette-list">
-        {filteredComponents.length > 0 ? (
-          filteredComponents.map((comp) => (
-            <DraggableComponent
-              key={comp.type}
-              type={comp.type}
-              icon={comp.icon}
-              label={comp.label}
-            />
-          ))
+        {activeTab === 'templates' ? (
+          filteredTemplates.length > 0 ? (
+            filteredTemplates.map(([key, template]) => (
+              <DraggableTemplate
+                key={key}
+                templateKey={key}
+                template={template}
+              />
+            ))
+          ) : (
+            <div className="palette-empty">No templates found</div>
+          )
         ) : (
-          <div className="palette-empty">No components found</div>
+          filteredComponents.length > 0 ? (
+            filteredComponents.map((comp) => (
+              <DraggableComponent
+                key={comp.type}
+                type={comp.type}
+                icon={comp.icon}
+                label={comp.label}
+              />
+            ))
+          ) : (
+            <div className="palette-empty">No components found</div>
+          )
         )}
       </div>
     </div>

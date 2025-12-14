@@ -1,5 +1,5 @@
 .component-palette {
-  width: 200px;
+  width: 250px;
   background: #ffffff;
   border-right: 1px solid #e0e0e0;
   padding: 20px;
@@ -15,6 +15,36 @@
   font-weight: 600;
   margin-bottom: 12px;
   color: #333;
+}
+
+.palette-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.palette-tab {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s;
+}
+
+.palette-tab:hover {
+  color: #007bff;
+}
+
+.palette-tab.active {
+  color: #007bff;
+  border-bottom-color: #007bff;
 }
 
 .palette-search {
@@ -67,10 +97,41 @@
 
 .palette-icon {
   font-size: 20px;
+  flex-shrink: 0;
 }
 
 .palette-label {
   font-size: 14px;
   color: #333;
+}
+
+.palette-template {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: #667eea;
+  color: #ffffff;
+}
+
+.palette-template:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #653a8f 100%);
+  border-color: #5568d3;
+}
+
+.palette-template-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.palette-template .palette-label {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.palette-description {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.3;
 }
 

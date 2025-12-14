@@ -8,6 +8,7 @@ import { saveWebsite, loadWebsite, publishWebsite } from './utils/api'
 import { HistoryManager } from './utils/history'
 import { setupKeyboardShortcuts } from './utils/keyboardShortcuts'
 import { getDarkMode, setDarkMode } from './utils/theme'
+import { applyTemplate, getTemplate } from './utils/componentTemplates'
 import './App.css'
 
 function App() {
@@ -140,9 +141,24 @@ function App() {
     }
   }
 
+  const generateId = () => {
+    return `comp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+  }
+
+  const handleAddTemplate = (templateKey) => {
+    const template = getTemplate(templateKey)
+    if (!template) {
+      console.error(`Template not found: ${templateKey}`)
+      return
+    }
+    
+    const templateComponents = applyTemplate(template, generateId)
+    updateCurrentPageComponents([...components, ...templateComponents])
+  }
+
   const handleAddComponent = (type, parentId = null) => {
     const newComponent = {
-      id: `comp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      id: generateId(),
       type,
       props: getDefaultProps(type),
       children: []
@@ -497,6 +513,7 @@ function App() {
           onUpdateComponent={handleUpdateComponent}
           onDeleteComponent={handleDeleteComponent}
           onAddComponent={handleAddComponent}
+          onAddTemplate={handleAddTemplate}
           onMoveComponent={handleMoveComponent}
           responsiveMode={responsiveMode}
           showGrid={showGrid}

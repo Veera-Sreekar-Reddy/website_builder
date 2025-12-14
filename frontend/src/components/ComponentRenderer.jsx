@@ -55,7 +55,7 @@ const COMPONENT_MAP = {
   Pagination
 }
 
-function ComponentRenderer({ component, isSelected, onSelect, onUpdate, onDelete, index, onMove, selectedComponent, onAddComponent }) {
+function ComponentRenderer({ component, isSelected, onSelect, onUpdate, onDelete, index, onMove, selectedComponent, onAddComponent, onAddTemplate }) {
   const [{ isDragging }, drag] = useDrag({
     type: 'canvas-component',
     item: { id: component.id, index, type: component.type },
@@ -65,13 +65,20 @@ function ComponentRenderer({ component, isSelected, onSelect, onUpdate, onDelete
   })
 
   const [{ isOver }, drop] = useDrop({
-    accept: ['component', 'canvas-component'],
+    accept: ['component', 'canvas-component', 'template'],
     drop: (item, monitor) => {
       // Only handle drops if this is a Container or FlexGrid component
-      if ((component.type === 'Container' || component.type === 'FlexGrid') && item.type && !item.id && onAddComponent) {
-        // Adding new component to container/grid
-        onAddComponent(item.type, component.id)
-        return { parentId: component.id, handled: true }
+      if (component.type === 'Container' || component.type === 'FlexGrid') {
+        if (item.templateKey && onAddTemplate) {
+          // Adding template to container/grid - templates are added to root level for now
+          // This could be enhanced to add templates inside containers
+          return { parentId: component.id, handled: false }
+        }
+        if (item.type && !item.id && onAddComponent) {
+          // Adding new component to container/grid
+          onAddComponent(item.type, component.id)
+          return { parentId: component.id, handled: true }
+        }
       }
       if (item.id && item.id !== component.id) {
         // Reordering existing component

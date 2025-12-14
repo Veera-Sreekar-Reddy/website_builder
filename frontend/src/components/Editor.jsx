@@ -3,9 +3,9 @@ import { useDrop } from 'react-dnd'
 import ComponentRenderer from './ComponentRenderer'
 import './Editor.css'
 
-function Editor({ components, selectedComponent, onSelectComponent, onUpdateComponent, onDeleteComponent, onAddComponent, onMoveComponent, responsiveMode = 'desktop', showGrid = false, snapToGrid = false }) {
+function Editor({ components, selectedComponent, onSelectComponent, onUpdateComponent, onDeleteComponent, onAddComponent, onAddTemplate, onMoveComponent, responsiveMode = 'desktop', showGrid = false, snapToGrid = false }) {
   const [{ isOver }, drop] = useDrop({
-    accept: ['component', 'canvas-component'],
+    accept: ['component', 'canvas-component', 'template'],
     drop: (item, monitor) => {
       const didDrop = monitor.didDrop()
       if (didDrop) {
@@ -21,6 +21,9 @@ function Editor({ components, selectedComponent, onSelectComponent, onUpdateComp
       if (item.id && onMoveComponent) {
         // Reordering existing component - move to end
         onMoveComponent(item.id, components.length)
+      } else if (item.templateKey && onAddTemplate) {
+        // Adding template from palette - add to canvas
+        onAddTemplate(item.templateKey)
       } else if (item.type && onAddComponent) {
         // Adding new component from palette - add to canvas
         onAddComponent(item.type)
@@ -73,6 +76,7 @@ function Editor({ components, selectedComponent, onSelectComponent, onUpdateComp
                      onMove={onMoveComponent}
                      selectedComponent={selectedComponent}
                      onAddComponent={onAddComponent}
+                     onAddTemplate={onAddTemplate}
                    />
                  ))
         )}
